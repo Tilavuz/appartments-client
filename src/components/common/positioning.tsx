@@ -4,7 +4,6 @@ import {
   TileLayer,
   Marker,
   useMapEvents,
-  useMap,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -30,16 +29,6 @@ const Positioning: React.FC = () => {
     }
   };
 
-  // Component
-  const MapUpdater: React.FC = () => {
-    const map = useMap();
-    if (position) {
-      map.setView([position.lat, position.lng], 25);
-    }
-    return null;
-  };
-
-  // Component
   const LocationMarker: React.FC = () => {
     useMapEvents({
       click(e) {
@@ -50,11 +39,7 @@ const Positioning: React.FC = () => {
       },
     });
 
-    return position ? (
-      <>
-        <Marker position={[position.lat, position.lng]} /> <MapUpdater />{" "}
-      </>
-    ) : null;
+    return position ? <Marker position={[position.lat, position.lng]} /> : null;
   };
 
   return (
@@ -78,6 +63,7 @@ const Positioning: React.FC = () => {
         center={position || { lat: 41.311081, lng: 69.240562 }}
         zoom={13}
         style={{ height: "500px", width: "100%", marginTop: "10px" }}
+        scrollWheelZoom={true}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <LocationMarker />

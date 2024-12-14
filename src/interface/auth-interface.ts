@@ -1,5 +1,5 @@
 export interface IAuth {
+  _id?: string;
   phone: string;
-  password?: string;
   role: string;
 }

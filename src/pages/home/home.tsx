@@ -1,4 +1,3 @@
-import Positioning from "@/components/common/positioning";
 import MainComponent from "./_components/main-component";
 import MainPropertyCarts from "./_components/main-property-carts";
 
@@ -11,7 +10,6 @@ export default function Home() {
       <div className="mb-24">
         <MainPropertyCarts />
       </div>
-      <Positioning />
     </div>
   );
 }
