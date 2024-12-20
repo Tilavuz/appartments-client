@@ -17,30 +17,36 @@ import { authService } from "@/services/auth-service";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import { actionReset } from "@/features/auth-state-slice";
-import { login } from "@/features/auth-slice";
+import { authEnd, authStart, login } from "@/features/auth-slice";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 export function InputOTPForm() {
   const [otp, setOtp] = useState("");
   const dispatch = useDispatch();
   const { phone } = useSelector((state: RootState) => state.authState);
+  const { loading } = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
 
   const checkOtp = useCallback(async () => {
     if (!phone || otp.length !== 6) return;
     try {
+      dispatch(authStart());
       const data = await authService.checkOtp({ phone, otp });
       toast.success(data.message);
       dispatch(login(data.auth));
       dispatch(actionReset());
+      navigate("/");
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data?.message);
+        dispatch(authEnd());
       } else {
         console.log("An unexpected error occurred:", error);
       }
     }
-  }, [otp, phone, dispatch]);
+  }, [otp, phone, dispatch, navigate]);
 
   useEffect(() => {
     checkOtp();
@@ -56,7 +62,7 @@ export function InputOTPForm() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex items-center justify-center">
-        <InputOTP maxLength={6} onChange={setOtp}>
+        <InputOTP maxLength={6} onChange={setOtp} disabled={loading}>
           <InputOTPGroup>
             <InputOTPSlot index={0} />
             <InputOTPSlot index={1} />

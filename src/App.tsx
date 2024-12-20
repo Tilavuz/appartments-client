@@ -8,6 +8,8 @@ import Home from "./pages/home/home";
 import Profile from "./pages/profile/profile";
 import Search from "./pages/search/search";
 import Auth from "./pages/auth/auth";
+import ProfileLayout from "./layouts/profile-layout";
+import PrivateRoute from "./private/private-route";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -26,6 +28,21 @@ export default function App() {
         {
           path: "/search/:region",
           element: <Search />,
+        },
+      ],
+    },
+    {
+      path: "/profile",
+      element: (
+        <PrivateRoute>
+          <ProfileLayout />
+        </PrivateRoute>
+      ),
+      errorElement: <p>Page not found</p>,
+      children: [
+        {
+          index: true,
+          element: <Profile />,
         },
       ],
     },

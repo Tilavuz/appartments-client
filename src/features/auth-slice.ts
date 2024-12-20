@@ -36,8 +36,13 @@ export const authSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
+    authEnd: (state) => {
+      state.loading = false;
+      state.error = null;
+    },
   },
 });
 
-export const { logOut, login, authFailed, authStart } = authSlice.actions;
+export const { logOut, login, authFailed, authStart, authEnd } =
+  authSlice.actions;
 export default authSlice.reducer;

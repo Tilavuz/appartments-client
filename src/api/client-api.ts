@@ -39,14 +39,11 @@ const requestInstance = ({
 export const clientApi = {
   privateInstance: axios.create({
     baseURL: apiUrl,
-    headers: {
-      Authorization: `Bearer ${"token"}`,
-    },
   }),
   privateInstanceForFile: axios.create({
     baseURL: apiUrl,
     headers: {
-      Authorization: `Bearer ${"token"}`,
+      Authorization: "token",
     },
   }),
   publicInstanceForFile: axios.create({
@@ -64,7 +61,11 @@ responseInstance(clientApi.publicInstanceForFile);
 
 requestInstance({
   instance: clientApi.privateInstance,
-  headers: { "Content-Type": "application/json" } as AxiosRequestHeaders,
+  headers: {
+    "Content-Type": "application/json",
+    Authorization:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzUyMDQwNGRmODMxMWFmNzYzZDQ2MDAiLCJpYXQiOjE3MzQzNTI2MjQsImV4cCI6MTczNDM1NjIyNH0.mQki65-pyX7jvL3Tgd_I83Mf5_h7n2uK7hNIxTpCwrw",
+  } as AxiosRequestHeaders,
 });
 requestInstance({
   instance: clientApi.privateInstanceForFile,

@@ -22,6 +22,15 @@ class AuthService {
       throw error;
     }
   }
+  async getAuth() {
+    try {
+      const res = await clientApi.privateInstance.get("/auth/get_auth");
+      return res.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
 }
 
 export const authService = new AuthService();
